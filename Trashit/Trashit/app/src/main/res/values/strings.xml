@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Trashit</string>
+    <string name="app_name_up">TRASHIT</string>
+    <string name="comenzar">COMENZAR</string>
+    <string name="app_home_frase">Recicla, por que no hay mejor planeta que este.</string>
+    <string name="Puntos_reciclaje">PUNTOS DE RECICLAJE MAPA</string>
+    <string name="Puntos_reciclaje2">PUNTOS DE RECICLAJE LISTA</string>
+    <string name="Informacion">INFORMACIÓN</string>
+    <string name="Bienvenidos">BIENVENIDOS A</string>
+    <string name="title_activity_puntos_mapa">ActivityPuntosMapa</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="activity_information_text">Por favor, seleccione una opción para visualizar la información del material que desee</string>
+    <string name="text_buscar" >Buscar</string>
+</resources>
