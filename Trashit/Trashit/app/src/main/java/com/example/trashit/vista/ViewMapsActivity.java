@@ -1,9 +1,4 @@
-package com.example.trashit;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
+package com.example.trashit.vista;
 
 import android.Manifest;
 import android.content.Context;
@@ -15,6 +10,12 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
+import com.example.trashit.negocio.NegocioPunto;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -33,7 +34,6 @@ public class ViewMapsActivity extends FragmentActivity implements OnMapReadyCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -42,14 +42,15 @@ public class ViewMapsActivity extends FragmentActivity implements OnMapReadyCall
 
     private void getLocalizacion() {
         int permiso = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
-        if(permiso == PackageManager.PERMISSION_DENIED){
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
-            }else{
+        if (permiso == PackageManager.PERMISSION_DENIED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
             }
 
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -81,7 +82,6 @@ public class ViewMapsActivity extends FragmentActivity implements OnMapReadyCall
             public void onLocationChanged(Location location) {
                 mMap.clear();
                 LatLng miUbicacion = new LatLng(location.getLatitude(), location.getLongitude());
-                //LatLng miUbicacion = new LatLng(-34.588337778904830, -58.448644532741466);
                 mMap.addMarker(new MarkerOptions().position(miUbicacion).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)).title("Ubicación actual"));
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(miUbicacion));
@@ -96,12 +96,15 @@ public class ViewMapsActivity extends FragmentActivity implements OnMapReadyCall
                 //GetPuntosUbicacion(location.getLatitude(), location.getLongitude());
                 GetPuntosUbicacion(-34.588337778904830, -58.448644532741466);
             }
+
             @Override
             public void onStatusChanged(String provider, int status, Bundle extras) {
             }
+
             @Override
             public void onProviderEnabled(String provider) {
             }
+
             @Override
             public void onProviderDisabled(String provider) {
             }
@@ -109,10 +112,9 @@ public class ViewMapsActivity extends FragmentActivity implements OnMapReadyCall
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1500000, 0, locationListener);
 
     }
-    public void GetPuntosUbicacion(double latitud, double longitud)
-    {
-        NegocioGetPuntos task = new NegocioGetPuntos(mMap, getApplicationContext(), latitud, longitud);
-        task.execute();
-    }
 
+    public void GetPuntosUbicacion(double latitud, double longitud) {
+        NegocioPunto negocioPunto = new NegocioPunto();
+        negocioPunto.getPuntos(mMap, getApplicationContext(), latitud, longitud);
+    }
 }

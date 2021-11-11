@@ -1,7 +1,5 @@
 package com.example.trashit.modelo;
 
-import com.example.trashit.Puntos;
-
 public class Ubicacion {
 
     private Partido partido;

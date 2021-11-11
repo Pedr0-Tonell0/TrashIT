@@ -1,4 +1,4 @@
-package com.example.trashit;
+package com.example.trashit.vista;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.example.trashit.modelo.Material;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ViewFiltradoMateriales extends ArrayAdapter<Material> {
     public ViewFiltradoMateriales(Context context, ArrayList<Material> objects) {

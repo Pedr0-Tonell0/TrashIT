@@ -1,11 +1,15 @@
-package com.example.trashit;
+package com.example.trashit.dao.material;
+
+import static com.example.trashit.db.DataDB.CONEXION_EXITOSA;
+import static com.example.trashit.db.DataDB.CONEXION_NO_EXITOSA;
+import static com.example.trashit.db.DataDB.cerrarConexion;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.example.trashit.DataDB;
+import com.example.trashit.db.DataDB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,43 +17,38 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-public class NegocioDataMaterial extends AsyncTask<String, Void, String> {
+public class DaoMaterial extends AsyncTask<String, Void, String> {
     private Context context;
     private Spinner sp;
 
-    private static String result2;
     private static ArrayList<String> listaMaterial = new ArrayList<>();
 
-    public NegocioDataMaterial(Spinner sp, Context ct) {
+    public DaoMaterial(Spinner sp, Context ct) {
         this.context = ct;
         this.sp = sp;
     }
 
     @Override
     protected String doInBackground(String... urls) {
-        String response = "";
+        Connection con = null;
+        Statement st = null;
+        ResultSet rs = null;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT M.Descripcion FROM Material M");
-            result2 = " ";
-
+            con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
+            st = con.createStatement();
+            rs = st.executeQuery("SELECT M.Descripcion FROM Material M");
             listaMaterial.clear();
-
             while (rs.next()) {
                 listaMaterial.add(rs.getString("Descripcion"));
             }
-            rs.close();
-            con.close();
-            response = "Conexion exitosa";
+            cerrarConexion(rs, con, st);
+            return CONEXION_EXITOSA;
         } catch (Exception e) {
             e.printStackTrace();
-            result2 = "Conexion no exitosa";
+            return CONEXION_NO_EXITOSA;
         }
-        return response;
-
     }
 
     @Override

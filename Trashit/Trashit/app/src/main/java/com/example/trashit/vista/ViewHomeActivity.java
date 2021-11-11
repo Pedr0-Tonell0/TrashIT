@@ -1,10 +1,10 @@
-package com.example.trashit;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.trashit.vista;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ViewHomeActivity extends AppCompatActivity {
 

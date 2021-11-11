@@ -1,16 +1,20 @@
-package com.example.trashit.dao;
+package com.example.trashit.dao.material;
+
+import static com.example.trashit.db.DataDB.CONEXION_EXITOSA;
+import static com.example.trashit.db.DataDB.CONEXION_NO_EXITOSA;
+import static com.example.trashit.db.DataDB.cerrarConexion;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ListView;
 
-import com.example.trashit.DataDB;
-import com.example.trashit.Puntos;
-import com.example.trashit.ViewFiltradoMateriales;
+import com.example.trashit.modelo.Puntos;
+import com.example.trashit.db.DataDB;
 import com.example.trashit.modelo.Direccion;
 import com.example.trashit.modelo.Material;
 import com.example.trashit.modelo.Partido;
 import com.example.trashit.modelo.Ubicacion;
+import com.example.trashit.vista.ViewFiltradoMateriales;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -44,16 +48,17 @@ public class DaoFiltroMaterial extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... urls) {
-        String response = "";
+        Connection con = null;
+        Statement st = null;
+        ResultSet rs = null;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
-            Statement st = con.createStatement();
-            ResultSet rs;
+            con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
+            st = con.createStatement();
             result2 = " ";
             listaMateriales.clear();
-            if (filtro.toString().length() > 0) {
+            if (filtro.length() > 0) {
 
                 rs = st.executeQuery("select pr.Materiales, pr.id," +
                         "b.descripcion, b.ID_Comuna, geometrycoordinates_y, geometrycoordinates_x, pr.Direccion from Puntos_Reciclado pr " +
@@ -73,18 +78,14 @@ public class DaoFiltroMaterial extends AsyncTask<String, Void, String> {
                 Puntos punto = new Puntos(rs.getDouble("geometrycoordinates_y"), rs.getDouble("geometrycoordinates_x"));
                 Ubicacion ubicacion = new Ubicacion(partido, direccion, punto);
                 Material material = new Material(rs.getString("pr.Materiales"), rs.getInt("pr.id"), ubicacion);
-
                 listaMateriales.add(material);
             }
-            rs.close();
-            con.close();
-            response = "Conexion exitosa";
+            cerrarConexion(rs, con, st);
+            return CONEXION_EXITOSA;
         } catch (Exception e) {
             e.printStackTrace();
-            result2 = "Conexion no exitosa";
+            return CONEXION_NO_EXITOSA;
         }
-        return response;
-
     }
 
     @Override

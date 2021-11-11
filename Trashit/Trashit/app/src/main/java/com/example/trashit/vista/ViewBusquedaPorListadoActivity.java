@@ -1,4 +1,4 @@
-package com.example.trashit;
+package com.example.trashit.vista;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.trashit.dao.DaoFiltroMaterial;
+import com.example.trashit.negocio.NegocioMaterial;
 
 public class ViewBusquedaPorListadoActivity extends AppCompatActivity {
 
@@ -26,24 +26,23 @@ public class ViewBusquedaPorListadoActivity extends AppCompatActivity {
         String material = prf.getString("material", null);
         getFiltradoByPartido_Material(partido, material);
         botonBuscar = findViewById(R.id.botonTextoBuscar);
-        textoBuscar = findViewById(R.id.textoABuscar) ;
+        textoBuscar = findViewById(R.id.textoABuscar);
 
         botonBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 filtrarMateriales(textoBuscar.getText().toString(), partido, material);
             }
-
         });
     }
 
     private void filtrarMateriales(String textoAFiltrar, String partido, String material) {
-        DaoFiltroMaterial task = new DaoFiltroMaterial(listaFiltrado, getApplicationContext(), textoAFiltrar, partido, material);
-        task.execute();
+        NegocioMaterial negocioMaterial = new NegocioMaterial();
+        negocioMaterial.filtroMaterial(listaFiltrado, getApplicationContext(), textoAFiltrar, partido, material);
     }
 
     private void getFiltradoByPartido_Material(String partido, String material) {
-        DaoFiltroMaterial task = new DaoFiltroMaterial(listaFiltrado, getApplicationContext(), partido, material);
-        task.execute();
+        NegocioMaterial negocioMaterial = new NegocioMaterial();
+        negocioMaterial.filtroMaterialPorPartido(listaFiltrado, getApplicationContext(), partido, material);
     }
 }

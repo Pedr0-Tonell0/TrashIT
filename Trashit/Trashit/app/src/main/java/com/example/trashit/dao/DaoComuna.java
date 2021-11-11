@@ -1,15 +1,20 @@
 package com.example.trashit.dao;
 
+import static com.example.trashit.db.DataDB.CONEXION_EXITOSA;
+import static com.example.trashit.db.DataDB.CONEXION_NO_EXITOSA;
+import static com.example.trashit.db.DataDB.cerrarConexion;
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.example.trashit.DataDB;
+import com.example.trashit.db.DataDB;
 
-import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -18,7 +23,6 @@ public class DaoComuna extends AsyncTask<String, Void, String> {
     private Spinner sp;
     private String partido;
 
-    private static String result2;
     private static ArrayList<String> listaPartido = new ArrayList<>();
 
     public DaoComuna(String partido, Context ct) {
@@ -29,31 +33,26 @@ public class DaoComuna extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... urls) {
-        String response = "";
-
+        Connection con = null;
+        Statement st = null;
+        ResultSet rs = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM Comuna_Localidad cl where cl.Comuna_Localidad = (select comuna from Barrio b where b.barrio = '"+this.partido+"')");
-            result2 = " ";
-
+            con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
+            st = con.createStatement();
+            rs = st.executeQuery("SELECT * FROM Comuna_Localidad cl where cl.Comuna_Localidad = (select comuna from Barrio b where b.barrio = '" + this.partido + "')");
             listaPartido.clear();
-
             while (rs.next()) {
                 String partido =
                         rs.getString("Barrio");
                 listaPartido.add(partido);
             }
-            rs.close();
-            con.close();
-            response = "Conexion exitosa";
+            cerrarConexion(rs, con, st);
+            return CONEXION_EXITOSA;
         } catch (Exception e) {
             e.printStackTrace();
-            result2 = "Conexion no exitosa";
+            return CONEXION_NO_EXITOSA;
         }
-        return response;
-
     }
 
     @Override

@@ -1,7 +1,4 @@
-package com.example.trashit;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.trashit.vista;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,11 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.util.ArrayList;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ViewPuntosFiltradoActivity extends AppCompatActivity {
     ListView list;
-    ArrayList<Material> listaMateriales;
     SharedPreferences pref;
 
     public static ViewPuntosFiltradoActivity newInstance() {

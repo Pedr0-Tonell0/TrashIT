@@ -1,6 +1,4 @@
-package com.example.trashit;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.trashit.vista;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,8 +9,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import com.example.trashit.dao.DaoMaterial;
-import com.example.trashit.dao.DaoPartido;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.trashit.negocio.NegocioMaterial;
+import com.example.trashit.negocio.NegocioPartido;
 
 public class ViewPuntosActivity extends AppCompatActivity {
     private Spinner listaPartidos;
@@ -91,12 +91,13 @@ public class ViewPuntosActivity extends AppCompatActivity {
     }
 
     private void connectMateriales(Spinner dropdown) {
-        DaoMaterial task = new DaoMaterial(dropdown, this);
-        task.execute();
+        NegocioMaterial negocioMaterial = new NegocioMaterial();
+        negocioMaterial.getMaterialesWithViewInformation(dropdown, this);
+
     }
 
     public void connectPartido(Spinner dropdown) {
-        DaoPartido task = new DaoPartido(dropdown, this);
-        task.execute();
+        NegocioPartido negocioPartido = new NegocioPartido();
+        negocioPartido.getPartido(dropdown, this);
     }
 }

@@ -1,11 +1,15 @@
 package com.example.trashit.dao;
 
+import static com.example.trashit.db.DataDB.CONEXION_EXITOSA;
+import static com.example.trashit.db.DataDB.CONEXION_NO_EXITOSA;
+import static com.example.trashit.db.DataDB.cerrarConexion;
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.example.trashit.DataDB;
+import com.example.trashit.db.DataDB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -18,7 +22,6 @@ public class DaoPartido extends AsyncTask<String, Void, String> {
     private Context context;
     private Spinner sp;
 
-    private static String result2;
     private static ArrayList<String> listaPartido = new ArrayList<>();
 
     public DaoPartido(Spinner sp, Context ct) {
@@ -28,29 +31,21 @@ public class DaoPartido extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... urls) {
-        String response = "";
-
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM Barrio");
-            result2 = " ";
-
             listaPartido.clear();
-
             while (rs.next()) {
                 listaPartido.add(rs.getString("Descripcion"));
             }
-            rs.close();
-            con.close();
-            response = "Conexion exitosa";
+            cerrarConexion(rs, con, st);
+            return CONEXION_EXITOSA;
         } catch (Exception e) {
             e.printStackTrace();
-            result2 = "Conexion no exitosa";
+            return CONEXION_NO_EXITOSA;
         }
-        return response;
-
     }
 
     @Override

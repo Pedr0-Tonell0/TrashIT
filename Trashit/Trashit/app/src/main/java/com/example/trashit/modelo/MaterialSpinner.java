@@ -1,4 +1,4 @@
-package com.example.trashit;
+package com.example.trashit.modelo;
 
 public class MaterialSpinner {
     public Integer id;

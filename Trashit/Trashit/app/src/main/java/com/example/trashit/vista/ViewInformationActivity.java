@@ -1,6 +1,4 @@
-package com.example.trashit;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.trashit.vista;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,11 +8,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.trashit.modelo.MaterialSpinner;
+import com.example.trashit.negocio.NegocioMaterial;
+
 public class ViewInformationActivity extends AppCompatActivity {
 
     private Spinner dropdown;
     private TextView tv;
-    String id;
     ScrollView sv;
 
     @Override
@@ -32,7 +34,7 @@ public class ViewInformationActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
                 MaterialSpinner spn = (MaterialSpinner) parent.getItemAtPosition(i);
-                Toast.makeText(ViewInformationActivity.this,spn.id.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(ViewInformationActivity.this, spn.id.toString(), Toast.LENGTH_LONG).show();
                 ViewInformationActivity.this.getInfoDetails(spn.id.toString());
             }
 
@@ -43,13 +45,14 @@ public class ViewInformationActivity extends AppCompatActivity {
         });
     }
 
-    public void connect( Spinner dropdown) {
-        NegocioDataInformationActivity task = new NegocioDataInformationActivity(dropdown,this);
-        task.execute();
+    public void connect(Spinner dropdown) {
+        NegocioMaterial negocioMaterial = new NegocioMaterial();
+        negocioMaterial.getMateriales(dropdown, this);
+
     }
 
     public void getInfoDetails(String id) {
-        NegocioDataInformationActivityDetails task = new NegocioDataInformationActivityDetails(this.tv, this, id, this.sv);
-        task.execute();
+        NegocioMaterial negocioMaterial = new NegocioMaterial();
+        negocioMaterial.getMaterialesById(this.tv, this, id, this.sv);
     }
 }
