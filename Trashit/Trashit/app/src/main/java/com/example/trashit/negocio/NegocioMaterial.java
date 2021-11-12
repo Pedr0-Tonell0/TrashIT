@@ -1,6 +1,7 @@
 package com.example.trashit.negocio;
 
 import android.content.Context;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -30,8 +31,8 @@ public class NegocioMaterial {
         task.execute();
     }
 
-    public void getMaterialesById(TextView tv, ViewInformationActivity viewInformationActivity, String id, ScrollView sv) {
-        DaoMaterialById task = new DaoMaterialById(tv, viewInformationActivity, id, sv);
+    public void getMaterialesById(TextView tv, ViewInformationActivity viewInformationActivity, String id, ScrollView sv, ImageView imagenMaterial) {
+        DaoMaterialById task = new DaoMaterialById(tv, viewInformationActivity, id, sv, imagenMaterial);
         task.execute();
     }
 

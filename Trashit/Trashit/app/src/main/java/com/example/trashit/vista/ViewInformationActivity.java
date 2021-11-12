@@ -3,6 +3,7 @@ package com.example.trashit.vista;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ public class ViewInformationActivity extends AppCompatActivity {
     private Spinner dropdown;
     private TextView tv;
     ScrollView sv;
+    ImageView imagenMaterial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,7 @@ public class ViewInformationActivity extends AppCompatActivity {
         dropdown = findViewById(R.id.spinner1);
         tv = findViewById(R.id.tvDescription);
         sv = findViewById(R.id.scrollDetails);
+        imagenMaterial = findViewById(R.id.imagenMaterial);
 
         this.connect(dropdown);
 
@@ -53,6 +56,6 @@ public class ViewInformationActivity extends AppCompatActivity {
 
     public void getInfoDetails(String id) {
         NegocioMaterial negocioMaterial = new NegocioMaterial();
-        negocioMaterial.getMaterialesById(this.tv, this, id, this.sv);
+        negocioMaterial.getMaterialesById(this.tv, this, id, this.sv, imagenMaterial);
     }
 }

@@ -9,10 +9,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.trashit.db.DataDB;
+import com.example.trashit.vista.R;
+import com.squareup.picasso.Picasso;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,12 +29,14 @@ public class DaoMaterialById extends AsyncTask<String, Void, String> {
     ScrollView sv;
     String id;
     String details, image;
+    ImageView imagen;
 
-    public DaoMaterialById(TextView tv, Context ct, String id, ScrollView sv) {
+    public DaoMaterialById(TextView tv, Context ct, String id, ScrollView sv, ImageView imagenMaterial) {
         this.context = ct;
         this.tv = tv;
         this.id = id;
         this.sv = sv;
+        this.imagen = imagenMaterial;
     }
 
     @Override
@@ -57,13 +62,10 @@ public class DaoMaterialById extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
+        Picasso.get()
+                .load(this.image)
+                .error(R.mipmap.ic_launcher_round)
+                .into(imagen);
         tv.setText(this.details);
-
-        Resources resources = context.getResources();
-        final int resourceId = resources.getIdentifier(this.image, "drawable",
-                context.getPackageName());
-
-        @SuppressLint("UseCompatLoadingForDrawables") Drawable myIcon = context.getResources().getDrawable(resourceId);
-        this.sv.setBackground(myIcon);
     }
 }

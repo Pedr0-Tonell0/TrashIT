@@ -93,8 +93,7 @@ public class ViewMapsActivity extends FragmentActivity implements OnMapReadyCall
                         .build();
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-                //GetPuntosUbicacion(location.getLatitude(), location.getLongitude());
-                GetPuntosUbicacion(-34.588337778904830, -58.448644532741466);
+                GetPuntosUbicacion(location.getLatitude(), location.getLongitude());
             }
 
             @Override
