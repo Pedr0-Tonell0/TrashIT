@@ -71,7 +71,7 @@ public class DaoPuntos extends AsyncTask<String, Void, String> {
         if (response == "Hay puntos cercanos a su ubicación") {
             for (Puntos ubicaciones : list) {
                 LatLng ubicacion = new LatLng(ubicaciones.getLatitud(), ubicaciones.getLongitud());
-                mMap.addMarker(new MarkerOptions().position(ubicacion).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title(ubicaciones.getDescripcion() + "\n" + ubicaciones.getDireccion()));
+                mMap.addMarker(new MarkerOptions().position(ubicacion).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title(ubicaciones.getDescripcion()).snippet("Direccion: " + ubicaciones.getDireccion()));
             }
         } else {
             Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
