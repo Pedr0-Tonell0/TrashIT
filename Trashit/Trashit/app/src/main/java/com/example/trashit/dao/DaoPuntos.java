@@ -44,7 +44,7 @@ public class DaoPuntos extends AsyncTask<String, Void, String> {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select geometrycoordinates_x,geometrycoordinates_y,materiales from Puntos_Reciclado WHERE" +
+            ResultSet rs = st.executeQuery("select geometrycoordinates_x,geometrycoordinates_y,materiales, Direccion from Puntos_Reciclado WHERE" +
                     "(geometrycoordinates_y <= " + latitudMas + " AND geometrycoordinates_y >= " + latitudMenos + " ) AND (geometrycoordinates_x <= " + longitudMas + " AND geometrycoordinates_x >= " + longitudMenos + " )");
             list.clear();
             while (rs.next()) {
@@ -52,6 +52,7 @@ public class DaoPuntos extends AsyncTask<String, Void, String> {
                 Puntos.setLongitud(rs.getDouble("geometrycoordinates_x"));
                 Puntos.setLatitud(rs.getDouble("geometrycoordinates_y"));
                 Puntos.setDescripcion(rs.getString("materiales"));
+                Puntos.setDireccion(rs.getString("Direccion"));
                 list.add(Puntos);
                 response = "Hay puntos cercanos a su ubicación";
             }
@@ -70,7 +71,7 @@ public class DaoPuntos extends AsyncTask<String, Void, String> {
         if (response == "Hay puntos cercanos a su ubicación") {
             for (Puntos ubicaciones : list) {
                 LatLng ubicacion = new LatLng(ubicaciones.getLatitud(), ubicaciones.getLongitud());
-                mMap.addMarker(new MarkerOptions().position(ubicacion).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title(ubicaciones.getDescripcion()));
+                mMap.addMarker(new MarkerOptions().position(ubicacion).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title(ubicaciones.getDescripcion() + "\n" + ubicaciones.getDireccion()));
             }
         } else {
             Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
