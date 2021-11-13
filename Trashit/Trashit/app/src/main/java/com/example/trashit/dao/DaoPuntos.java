@@ -44,7 +44,7 @@ public class DaoPuntos extends AsyncTask<String, Void, String> {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             Connection con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("select geometrycoordinates_x,geometrycoordinates_y,materiales, Direccion from Puntos_Reciclado WHERE" +
+            ResultSet rs = st.executeQuery("select geometrycoordinates_x,geometrycoordinates_y,materiales, Direccion from Puntos_Reciclado WHERE Fecha_Baja is null and " +
                     "(geometrycoordinates_y <= " + latitudMas + " AND geometrycoordinates_y >= " + latitudMenos + " ) AND (geometrycoordinates_x <= " + longitudMas + " AND geometrycoordinates_x >= " + longitudMenos + " )");
             list.clear();
             while (rs.next()) {

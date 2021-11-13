@@ -38,7 +38,7 @@ public class DaoMaterialSpinner extends AsyncTask<String, Void, String> {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM Material");
+            ResultSet rs = st.executeQuery("SELECT * FROM Material order by Descripcion");
 
             listaMateriales.clear();
 

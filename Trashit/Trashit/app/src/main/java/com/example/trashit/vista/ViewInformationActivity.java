@@ -37,7 +37,6 @@ public class ViewInformationActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
                 MaterialSpinner spn = (MaterialSpinner) parent.getItemAtPosition(i);
-                Toast.makeText(ViewInformationActivity.this, spn.id.toString(), Toast.LENGTH_LONG).show();
                 ViewInformationActivity.this.getInfoDetails(spn.id.toString());
             }
 

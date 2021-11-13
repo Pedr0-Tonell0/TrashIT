@@ -46,7 +46,7 @@ public class DaoMaterialById extends AsyncTask<String, Void, String> {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM Material where ID = " + this.id);
+            ResultSet rs = st.executeQuery("SELECT * FROM Material where ID = " + this.id + " order by Descripcion");
 
             while (rs.next()) {
                 this.details = rs.getString("Informacion");

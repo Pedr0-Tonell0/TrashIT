@@ -64,7 +64,7 @@ public class DaoFiltroMaterial extends AsyncTask<String, Void, String> {
                         "b.descripcion, b.ID_Comuna, geometrycoordinates_y, geometrycoordinates_x, pr.Direccion from Puntos_Reciclado pr " +
                         "inner join Barrio b on pr.barrio = b.id " +
                         "where (cast(pr.id as char) like '%" + filtro + "%'|| direccion like '%" + filtro + "%' || materiales = '" + this.material + "' || geometrycoordinates_x like '%" + filtro + "%' || geometrycoordinates_y like '%" + filtro + "%') and b.descripcion = '" + this.partido + "'" +
-                        " pr.Fecha_Baja is null and order by pr.id asc");
+                        "and pr.Fecha_Baja is null order by pr.id asc");
             } else {
                 rs = st.executeQuery("select pr.Materiales, pr.id, " +
                         "b.descripcion, b.ID_Comuna, geometrycoordinates_y, geometrycoordinates_x, pr.Direccion " +

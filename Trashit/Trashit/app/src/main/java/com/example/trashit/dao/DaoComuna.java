@@ -40,7 +40,7 @@ public class DaoComuna extends AsyncTask<String, Void, String> {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
             st = con.createStatement();
-            rs = st.executeQuery("SELECT * FROM Comuna_Localidad cl where cl.Comuna_Localidad = (select comuna from Barrio b where b.barrio = '" + this.partido + "')");
+            rs = st.executeQuery("SELECT * FROM Comuna_Localidad cl where cl.ID = (select ID_Comuna from Barrio b where b.Descripcion = '" + this.partido + "') order by Descripcion");
             listaPartido.clear();
             while (rs.next()) {
                 String partido =

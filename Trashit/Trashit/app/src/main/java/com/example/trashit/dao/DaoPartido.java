@@ -35,7 +35,7 @@ public class DaoPartido extends AsyncTask<String, Void, String> {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM Barrio");
+            ResultSet rs = st.executeQuery("SELECT * FROM Barrio order by Descripcion");
             listaPartido.clear();
             while (rs.next()) {
                 listaPartido.add(rs.getString("Descripcion"));

@@ -38,7 +38,7 @@ public class DaoMaterial extends AsyncTask<String, Void, String> {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(DataDB.urlMySQL, DataDB.user, DataDB.pass);
             st = con.createStatement();
-            rs = st.executeQuery("SELECT M.Descripcion FROM Material M");
+            rs = st.executeQuery("SELECT M.Descripcion FROM Material M order by M.Descripcion");
             listaMaterial.clear();
             while (rs.next()) {
                 listaMaterial.add(rs.getString("Descripcion"));
